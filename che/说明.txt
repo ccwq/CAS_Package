@@ -1,0 +1,7 @@
+import che.*;
+
+前提(a<b)
+tool.rdmNu(a,b);返回a-b之间的浮点数
+tool.rdmFl(a,b);返回a>= tool.rdmFl(a,b) >b之间的整数
+
+  例：tool.rdmFl(0,1)只返回0
