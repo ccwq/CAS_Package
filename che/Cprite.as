@@ -37,6 +37,7 @@
 			}else {
 				addEventListener(Event.ADDED_TO_STAGE, function(e:Event):void {
 					initial(e);
+					gotStage(e);
 					e.target.removeEventListener(e.type, arguments.callee);
 					hasStage();
 				});
@@ -45,6 +46,7 @@
 		
 		public function hasStage():void {
 			Squery.ins.init(stage);
+			
 		}
 		
 		//仅执行一次。以后再addToStage不执行
@@ -65,6 +67,11 @@
 			
 		}
 		//--需要被覆盖
+		
+		protected function gotStage(e:Event = null):void {
+			
+		}
+
 		
 		
 		
