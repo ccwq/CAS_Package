@@ -220,8 +220,6 @@
 		public function get childsco():Co { return _childsco; };
 		private var _meco:Co = new Co;
 		public function get meco():Co { return _meco; }
-			
-		
 		
 		//覆盖
 		override public function addChild(child:DisplayObject):DisplayObject 
@@ -369,5 +367,64 @@
 			}
 		}
 		
+		/**
+		 * offsetX,offsetY和真实的x，y合成当前对象的位置
+		 */
+		private var _offsetX:Number = 0, _offsetY:Number = 0, _x:Number = 0, _y:Number = 0;
+		
+		/**
+		 * x偏移
+		 */
+		public function get offsetX():Number 
+		{
+			return _offsetX;
+		}
+		
+		public function set offsetX(value:Number):void 
+		{
+			_offsetX = value;
+			super.x = offsetX + x;
+		}
+		
+		/**
+		 * y偏移
+		 */
+		public function get offsetY():Number 
+		{
+			return _offsetX;
+		}
+		
+		public function set offsetY(value:Number):void 
+		{
+			_offsetX = value;
+			super.y = offsetY + y;
+		}
+		
+		/**
+		 * 覆盖x
+		 */
+		override public function get x():Number 
+		{
+			return _x;
+		}
+		
+		override public function set x(value:Number):void 
+		{
+			
+			super.x = offsetX + x;
+		}
+		
+		/**
+		 * 覆盖y
+		 */
+		override public function get y():Number 
+		{
+			return _y;
+		}
+		
+		override public function set y(value:Number):void 
+		{
+			super.y = offsetY + y;
+		}
 	}
 }
