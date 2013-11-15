@@ -34,6 +34,7 @@
 			if (stage) {
 				hasStage();
 				initial(null);
+				gotStage();
 			}else {
 				addEventListener(Event.ADDED_TO_STAGE, function(e:Event):void {
 					initial(e);
@@ -352,16 +353,21 @@
 				disobj.stage.align = 'TL';
 				disobj.stage.scaleMode = 'noScale';
 			}else {
-				throw(new Error("请在stage获取之后调用..."));
+				throw(new Error("stage为空，请先获取stage..."));
+			}
+		}
+
+		/**
+		 * 获取rootclass名，不包括包名
+		 * @param isFullName 是否是全路径名
+		 */
+		public function getRootClassName(isFullName:Boolean = false):String {
+			if (isFullName) {
+				return getQualifiedClassName(this.root);
+			}else {
+				return getQualifiedClassName(this.root).split(":").pop();
 			}
 		}
 		
-		public function get rootClassFullName():String {
-			return getQualifiedClassName(this.root);
-		}
-		
-		public function get rootClassName():String {
-			return rootClassFullName.split(":").pop();
-		}
 	}
 }
