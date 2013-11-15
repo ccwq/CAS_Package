@@ -45,9 +45,8 @@
 			}
 		}
 		
-		public function hasStage():void {
+		protected function hasStage():void {
 			Squery.ins.init(stage);
-			
 		}
 		
 		//仅执行一次。以后再addToStage不执行
@@ -63,19 +62,29 @@
 		}
 
 		
-		//需要被覆盖
+		/**
+		 * 获得stage
+		 * @param	e
+		 */
 		public function initial(e:Event):void {
 			
 		}
-		//--需要被覆盖
 		
+		/**
+		 * 获得stage
+		 * @param	e
+		 */
 		protected function gotStage(e:Event = null):void {
 			
 		}
 
 		
-		
-		
+		/**
+		 * 获取sprite
+		 * @param	nameOrIndex		可以根据name或者index
+		 * @param	byIndexFlag
+		 * @return
+		 */
 		public function getSpriteChild(nameOrIndex:*,byIndexFlag:Boolean=false):Sprite {
 			if (byIndexFlag) {
 				return getChildAt(nameOrIndex) as Sprite;
@@ -157,6 +166,14 @@
 			return Squery.ins.getOne(attrObject, rootContainer, findMode, flyMode);
 		}
 		
+		/**
+		 * 在子树里查找符合条件的显示对象
+		 * @param	attrObject
+		 * @param	findMode
+		 * @param	rootContainer
+		 * @param	flyMode
+		 * @return
+		 */
 		public function getOne(attrObject:Object,  findMode:Object = '=', rootContainer:DisplayObject = null, flyMode:Boolean = false):Array { 
 			if(!rootContainer)	rootContainer=this;
 			return Squery.ins.getOne(attrObject, rootContainer, findMode, flyMode);
@@ -190,14 +207,27 @@
 			return dis;
 		}
 		
-		//放置对象位置xpos,ypos取值为【-1,0,1】分别表示左中右（上中下）
+		/**
+		 * 放置对象位置xpos,ypos取值为【-1,0,1】分别表示左中右（上中下）
+		 * @param	dio
+		 * @param	xpos
+		 * @param	ypos
+		 * @param	xoffset
+		 * @param	yoffset
+		 * @return
+		 */
 		public function setDisplayObjectPoistion(dio:DisplayObject,xpos:int = 0, ypos:int = 0,xoffset:Number=0,yoffset:Number=0):DisplayObject {
 			dio.x = (xpos - 1) * 0.5 * dio.width + xoffset;
 			dio.y = (ypos - 1) * 0.5 * dio.height + yoffset;
 			return dio;
 		}
 		
-		//包裹一层sprite
+		/**
+		 * 包裹一个Sprite
+		 * @param	dis
+		 * @param	centerIt
+		 * @return
+		 */
 		public function wrapSprite(dis:DisplayObject,centerIt:Boolean=false):Sprite {
 			var s:Sprite = new Sprite;
 			s.addChild(dis);
@@ -205,7 +235,12 @@
 			return s;
 		}
 
-		//使dobj发送str类型事件，并传替inf对象给侦听器
+		/**
+		 * 发送一个che.EasyEvent事件类型对象
+		 * @param	str		事件名称
+		 * @param	inf		事件信息
+		 * @param	flg		是否向上流动
+		 */
 		public function evtSend(str:String, inf:Object, flg:Boolean = true):void {
 			var e:EasyEvent= new EasyEvent(str, inf, flg);
 			this.dispatchEvent(e);
@@ -250,6 +285,14 @@
 			return super.removeChildAt(index);
 		}
 		
+		/**
+		 * 重写，记录所增加的事件名称和处理函数绑定
+		 * @param	type
+		 * @param	listener
+		 * @param	useCapture
+		 * @param	priority
+		 * @param	useWeakReference
+		 */
 		override public function addEventListener(type:String, listener:Function, useCapture:Boolean = false, priority:int = 0, useWeakReference:Boolean = false):void 
 		{
 			var obj:Object = { };
@@ -258,6 +301,12 @@
 			super.addEventListener(type, listener, useCapture, priority, useWeakReference);
 		}
 		
+		/**
+		 * 重写，删除已记录的事件和句柄关系
+		 * @param	type
+		 * @param	listener
+		 * @param	useCapture
+		 */
 		override public function removeEventListener(type:String, listener:Function, useCapture:Boolean = false):void 
 		{
 			var obj:Object = { };
@@ -281,11 +330,19 @@
 			setBackGroundColor(0x00ffffff,sizeObject,positionObject);
 		}
 		
-		//移除背景
+		/**
+		 * 移除背景
+		 */
 		public function removeBackGroundShape():void {
 			if (_backGroundShape && _backGroundShape.parent) removeChild(_backGroundShape);
 		}
 		
+		/**
+		 * 设置背景
+		 * @param	aRGBColor		颜色形式为argb
+		 * @param	positionObject	位置
+		 * @param	sizeObject	尺寸
+		 */
 		public function setBackGroundColor(aRGBColor:Number=0xff00000000,positionObject:Object = null,sizeObject:Object = null):void { 
 			if (!_backGroundShape) {
 				_backGroundShape=new Shape;
@@ -323,7 +380,11 @@
 			setBackGroundSize(sizeObject);
 		}
 		
-		
+		/**
+		 * 设置背景尺寸
+		 * @param	sizeObject_width {width:xx,height:xxx} 形式或者宽度数字
+		 * @param	height
+		 */
 		public function setBackGroundSize(sizeObject_width:Object = 27, height:Number = -1):void { 
 			if (!_backGroundShape)	return;
 			
@@ -344,7 +405,9 @@
 		//
 		
 		
-		//设置stage对齐方式
+		/**
+		 * 设置stage对齐方式 noScale,TL
+		 */
 		public function setStageAlign():void {
 			var disobj:DisplayObject = this;
 			if (disobj.stage) {
@@ -410,7 +473,7 @@
 		
 		override public function set x(value:Number):void 
 		{
-			
+			_x = value;
 			super.x = offsetX + x;
 		}
 		
@@ -424,6 +487,7 @@
 		
 		override public function set y(value:Number):void 
 		{
+			_y = value;
 			super.y = offsetY + y;
 		}
 	}
